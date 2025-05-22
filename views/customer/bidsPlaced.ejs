@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bids for Order #<%= orderId %> | CargoLink</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/orders.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="icon" type="image/icon" class="logo" href="/img/logo.svg">
+    <style>
+        .bids-container {
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+        .bids-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .bids-table th,
+        .bids-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .bids-table th {
+            background-color: #f5f5f5;
+            font-weight: 600;
+            color: #333;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+        .bids-table td {
+            color: #555;
+            font-size: 0.95rem;
+        }
+        .bids-table tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        .bids-table tr:hover {
+            background-color: #f0f0f0;
+        }
+        .cancel-btn {
+            margin-top: 1rem;
+            display: inline-block;
+        }
+        .accept-btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .accept-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    
+    <%- include('../partials/header') %>
+
+    <!-- Main Content -->
+    <main class="main-content container">
+        <div class="page-header">
+            <h2 class="page-title">Bids for Order #<%= orderId %></h2>
+        </div>
+
+        <div class="bids-container">
+            <% if (bids && bids.length > 0) { %>
+                <table class="bids-table">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Transporter ID</th>
+                            <th>Transporter Name</th>
+                            <th>Contact Info</th>
+                            <th>Bid Amount</th>
+                            <th>Bid Time</th>
+                            <th>Notes</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% bids.forEach(bid => { %>
+                            <tr>
+                                <td><%= bid.serialNumber %></td>
+                                <td><%= bid.transporter_id %></td>
+                                <td><%= bid.transporter_name %></td>
+                                <td><%= bid.contact_info %></td>
+                                <td>₹<%= bid.bid_amount %></td>
+                                <td><%= bid.bid_time %></td>
+                                <td><%= bid.notes %></td>
+                                <td>
+                                    <button class="accept-btn" data-bid-id="<%= bid.bid_id %>">Accept</button>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <p>No bids found for this order.</p>
+            <% } %>
+
+            <a href="/customer/orders" class="btn btn-secondary cancel-btn">Cancel</a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <%- include('../partials/footer') %>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const acceptButtons = document.querySelectorAll('.accept-btn');
+
+            acceptButtons.forEach(button => {
+                button.addEventListener('click', async function() {
+                    const bidId = this.getAttribute('data-bid-id');
+                    console.log('Accept button clicked for bid ID:', bidId);
+
+                    try {
+                        // Send POST request to accept the bid
+                        const response = await fetch(`/customer/order/<%= orderId %>/accept-bid`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            credentials: 'include',
+                            body: JSON.stringify({ bid_id: bidId })
+                        });
+
+                        if (!response.ok) {
+                            const errorText = await response.text();
+                            throw new Error(`HTTP error! Status: ${response.status}, Message: ${errorText}`);
+                        }
+
+                        const data = await response.json();
+                        console.log('Accept bid response:', data);
+
+                        if (data.success) {
+                            alert('Bid Accepted Successfully')
+
+                            setTimeout(() => {
+                                window.location.href = '/customer/orders';
+                            }, 1000);
+                        } else {
+                            alert(data.message || 'Failed to accept bid');
+                        }
+                    } catch (error) {
+                        console.error('Error accepting bid:', error);
+                        alert('An error occurred while accepting the bid: ' + error.message);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

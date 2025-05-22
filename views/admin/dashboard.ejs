@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="icon" type="image/icon" class="logo" href="/img/logo.svg">
+
+</head>
+
+
+<body>
+ 
+  <%- include('../partials/header') %>
+  
+  <div class="dashboard-container" 
+      data-dashboard='<%- JSON.stringify({
+          ordersPerDay,
+          revenuePerDay,
+          topTransporters,
+          fleetUtilization,
+          newCustomersPerMonth,
+          truckTypes,
+          orderRatio,
+          orderStatusDistribution,
+      }) %>'
+  >
+
+
+    <!-- Dashboard Stats -->
+    <div class="dashboard-stats">
+      <div class="stat-card">
+        <h3>Total Orders</h3>
+        <p><%= totalOrders %></p>
+      </div>
+      <div class="stat-card">
+        <h3>Total Revenue</h3>
+        <p>$<%= totalRevenue.toLocaleString() %></p>
+      </div>
+      <div class="stat-card">
+        <h3>New Customers</h3>
+        <p><%= newCustomers %></p>
+      </div>
+      <div class="stat-card">
+        <h3>Pending Orders</h3>
+        <p><%= pendingOrders %></p>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="dashboard-charts">
+      <div class="chart-container">
+        <h2>Orders per Day</h2>
+        <div class="chart-wrapper">
+          <canvas id="ordersChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-container">
+        <h2>Revenue per Day</h2>
+        <div class="chart-wrapper">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-container">
+        <h2>Top Transporters</h2>
+        <div class="chart-wrapper">
+          <canvas id="transportersChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-container">
+        <h2>New Customers per Month</h2>
+        <div class="chart-wrapper">
+          <canvas id="customersChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-container">
+        <h2>Most Requested Truck Types</h2>
+        <div class="chart-wrapper">
+          <canvas id="truckTypesChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-container">
+        <h2>Order Status Distribution</h2>
+        <div class="chart-wrapper">
+          <canvas id="orderRatioChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <%- include('../partials/footer') %>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

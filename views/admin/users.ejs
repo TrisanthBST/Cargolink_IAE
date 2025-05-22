@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | CargoLink</title>
+    <link rel="icon" type="image/svg+xml" href="/img/logo.svg">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/users.css">
+
+</head>
+<body>
+    
+    <%- include('../partials/header') %>
+    
+    <div class="main-content users-container">
+        <div class="page-header">
+            <h1 class="page-title">Manage Users</h1>
+        </div>
+
+        <div class="tab-switch">
+            <button id="customersTabBtn" class="btn tab-btn active" onclick="filterUsers('Customer')">
+                Customers 
+            </button>
+            <button id="transportersTabBtn" class="btn tab-btn" onclick="filterUsers('Transporter')">
+                Transporters
+            </button>
+        </div>
+
+        <div class="filter-bar">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search by name, email or ID...">
+            </div>
+            <div>
+            <select id="sortFilter">
+                <option value="date">Sort By Date Joined</option>
+                <option value="name">Sort By Name</option>
+                <option value="id">Sort By ID</option>
+            </select>
+            <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
+        </div>
+        </div>
+        
+        
+        <!-- Users Table -->
+         <div class="table-wrapper">
+        <table class="users-table">
+            <thead>
+                <tr>
+                    <th class="header-cell">ID</th>
+                    <th class="header-cell">User</th>
+                    <th class="header-cell">Email</th>
+                    <th class="header-cell">Phone</th>
+                    <th class="header-cell">No of orders</th>
+                    <th class="header-cell">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach(function(user) { %>
+                <tr>
+                    <td><%= user.customer_id %></td>
+                    <td><%= `${user.first_name} ${user.last_name}` %></td>
+                    <td><%= user.email %></td>
+                    <td><%= user.phone || 'N/A' %></td>
+                    <td><%= user.noOfOrders %></td>
+                    <td>
+                        <div class="action-icons">
+                            <span class="action-icon delete-icon" onclick="deleteUser('<%= user.customer_id %>')"></span>
+                        </div>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <%- include('../partials/footer') %>
+
+    <script src="/js/main.js"></script>
+    <script src="/js/users.js"></script>
+</body>
+</html>

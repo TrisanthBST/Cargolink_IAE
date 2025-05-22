@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | CargoLink</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+    <div class="container">
+        <h1>My Profile</h1>
+        
+        <div class="profile-layout">
+            <!-- Profile Sidebar -->
+            <div class="profile-sidebar">
+                <img src="<%= user.profileImage %>" alt="Profile Picture" class="profile-avatar">
+                <h2 class="profile-name"><%= user.name %></h2>
+                <p class="profile-email"><%= user.email %></p>
+                
+                <div class="profile-stats">
+                    <table class="stats-table">
+                        <tr>
+                            <td>Member Since</td>
+                            <td><%= user.memberSince %></td>
+                        </tr>
+                        <tr>
+                            <td>Total Orders</td>
+                            <td><%= user.totalOrders %></td>
+                        </tr>
+                        <tr>
+                            <td>Account Status</td>
+                            <td><%= user.status %></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="profile-main">
+                <div class="profile-container">
+                    <!-- Tab Navigation -->
+                    <div class="tab-navigation">
+                        <button class="tab-button" data-tab="personal">Personal Information</button>
+                        <button class="tab-button" data-tab="shipping">Shipping Addresses</button>
+                        <button class="tab-button" data-tab="payment">Payment Methods</button>
+                        <button class="tab-button" data-tab="security">Security</button>
+                    </div>
+
+                    <!-- Tab Panels -->
+                    <div class="profile-content">
+                        <!-- Personal Information Panel -->
+                        <div id="personal" class="tab-panel">
+                            <div class="section-header">
+                                <h2 class="section-title">Personal Information</h2>
+                            </div>
+                            
+                            <div class="data-table">
+                                <form id="personalForm" class="form-section">
+
+                                    <table class="info-table">
+                                        <!-- FULL NAME -->
+                                        <tr data-field="full_name">
+                                            <td class="label-cell">FIRST NAME</td>
+                                            <td class="value-cell">
+                                                <div class="field-content">
+                                                    <span class="display-value"><%= user.firstName %></span>
+                                                    <input type="text" 
+                                                           class="form-control edit-input" 
+                                                           data-field-type="first_name"
+                                                           value="<%= user.firstName %>" 
+                                                           disabled>
+                                                </div>
+                                                <div class="field-actions">
+                                                    <button type="button" class="btn btn-outline btn-sm field-edit-btn">Edit</button>
+                                                    <button type="button" class="btn btn-primary btn-sm field-save-btn" style="display: none;">Save</button>
+                                                    <button type="button" class="btn btn-outline btn-sm field-cancel-btn" style="display: none;">Cancel</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <!-- LAST NAME -->
+                                        <tr data-field="last_name">
+                                            <td class="label-cell">LAST NAME</td>
+                                            <td class="value-cell">
+                                                <div class="field-content">
+                                                    <span class="display-value"><%= user.lastName %></span>
+                                                    <input type="text" 
+                                                           class="form-control edit-input" 
+                                                           data-field-type="last_name"
+                                                           value="<%= user.lastName %>" 
+                                                           disabled>
+                                                </div>
+                                                <div class="field-actions">
+                                                    <button type="button" class="btn btn-outline btn-sm field-edit-btn">Edit</button>
+                                                    <button type="button" class="btn btn-primary btn-sm field-save-btn" style="display: none;">Save</button>
+                                                    <button type="button" class="btn btn-outline btn-sm field-cancel-btn" style="display: none;">Cancel</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        
+                                        <!-- EMAIL -->
+                                        <tr data-field="email">
+                                            <td class="label-cell">EMAIL</td>
+                                            <td class="value-cell">
+                                                <div class="field-content">
+                                                    <span class="display-value"><%= user.email %></span>
+                                                    <input type="email" 
+                                                           class="form-control edit-input" 
+                                                           data-field-type="email"
+                                                           value="<%= user.email %>" 
+                                                           disabled>
+                                                </div>
+                                                <div class="field-actions">
+                                                    <button type="button" class="btn btn-outline btn-sm field-edit-btn">Edit</button>
+                                                    <button type="button" class="btn btn-primary btn-sm field-save-btn" style="display: none;">Save</button>
+                                                    <button type="button" class="btn btn-outline btn-sm field-cancel-btn" style="display: none;">Cancel</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        
+                                        <!-- PHONE -->
+                                        <tr data-field="phone">
+                                            <td class="label-cell">PHONE</td>
+                                            <td class="value-cell">
+                                                <div class="field-content">
+                                                    <span class="display-value"><%= user.phone || '' %></span>
+                                                    <input type="tel" 
+                                                           class="form-control edit-input" 
+                                                           data-field-type="phone"
+                                                           value="<%= user.phone || '' %>" 
+                                                           disabled>
+                                                </div>
+                                                <div class="field-actions">
+                                                    <button type="button" class="btn btn-outline btn-sm field-edit-btn">Edit</button>
+                                                    <button type="button" class="btn btn-primary btn-sm field-save-btn" style="display: none;">Save</button>
+                                                    <button type="button" class="btn btn-outline btn-sm field-cancel-btn" style="display: none;">Cancel</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        
+                                        <!-- DATE OF BIRTH -->
+                                        <tr data-field="date_of_birth">
+                                            <td class="label-cell">DATE OF BIRTH</td>
+                                            <td class="value-cell">
+                                                <div class="field-content">
+                                                    <span class="display-value"><%= user.displayDob || '' %></span>
+                                                    <input type="date" 
+                                                           class="form-control edit-input" 
+                                                           data-field-type="date_of_birth"
+                                                           value="<%= user.dob || '' %>" 
+                                                           max="<%= new Date().toISOString().split('T')[0] %>"
+                                                           disabled>
+                                                </div>
+                                                <div class="field-actions">
+                                                    <button type="button" class="btn btn-outline btn-sm field-edit-btn">Edit</button>
+                                                    <button type="button" class="btn btn-primary btn-sm field-save-btn" style="display: none;">Save</button>
+                                                    <button type="button" class="btn btn-outline btn-sm field-cancel-btn" style="display: none;">Cancel</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        
+                                        <!-- GENDER -->
+                                        <tr data-field="gender">
+                                            <td class="label-cell">GENDER</td>
+                                            <td class="value-cell">
+                                                <div class="field-content">
+                                                    <span class="display-value"><%= user.gender || 'Male' %></span>
+                                                    <select class="form-control edit-input" 
+                                                            data-field-type="gender"
+                                                            disabled>
+                                                        <option value="">Select Gender</option>
+                                                        <option value="Male" <%= user.gender === 'Male' ? 'selected' : '' %>>Male</option>
+                                                        <option value="Female" <%= user.gender === 'Female' ? 'selected' : '' %>>Female</option>
+                                                        <option value="Other" <%= user.gender === 'Other' ? 'selected' : '' %>>Other</option>
+                                                    </select>
+                                                </div>
+                                                <div class="field-actions">
+                                                    <button type="button" class="btn btn-outline btn-sm field-edit-btn">Edit</button>
+                                                    <button type="button" class="btn btn-primary btn-sm field-save-btn" style="display: none;">Save</button>
+                                                    <button type="button" class="btn btn-outline btn-sm field-cancel-btn" style="display: none;">Cancel</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Shipping Addresses Panel -->
+                        <div id="shipping" class="tab-panel">
+                            <div class="section-header">
+                                <h2 class="section-title">Shipping Addresses</h2>
+                                <button type="button" class="btn btn-outline edit-btn" id="addAddressBtn">Add New Address</button>
+                            </div>
+
+                            <div class="addresses-grid">
+                                <% if (user.addresses && user.addresses.length > 0) { %>
+                                    <% user.addresses.forEach((address) => { %>
+                                        <div class="address-card" data-address-id="<%= address.address_id %>">
+                                            <div class="address-type"><%= address.label %></div>
+                                            <div class="address-content">
+                                                <p><%= address.street %></p>
+                                                <p><%= address.city %>, <%= address.state %> <%= address.zipCode %></p>
+                                                <p><%= address.country %></p>
+                                                <p class="address-phone"><%= address.phone %></p>
+                                            </div>
+                                            <div class="address-actions">
+                                                <button type="button" class="btn btn-outline btn-sm btn-danger">Delete</button>
+                                            </div>
+                                        </div>
+                                    <% }); %>
+                                <% } else { %>
+                                    <div class="no-data-message">
+                                        <p>No addresses found. Click "Add New Address" to add one.</p>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <!-- Payment Methods Panel -->
+                        <div id="payment" class="tab-panel">
+                            <div class="section-header">
+                                <h2 class="section-title">Payment Methods</h2>
+                                <button type="button" class="btn btn-outline edit-btn" id="addPaymentBtn">Add New Card</button>
+                            </div>
+
+                            <div class="payment-cards-grid">
+                                <% if (user.paymentMethods && user.paymentMethods.length > 0) { %>
+                                    <% user.paymentMethods.forEach((card, index) => { %>
+                                        <div class="payment-card" data-payment-id="<%= card.id || index %>">
+                                            <div class="card-type">
+                                                <span class="card-logo <%= card.type.toLowerCase() %>"><%= card.type %></span>
+                                                <% if (card.isDefault) { %>
+                                                    <span class="card-default">Default</span>
+                                                <% } %>
+                                            </div>
+                                            <div class="card-info">
+                                                <p class="card-number">**** **** **** <%= card.lastFour %></p>
+                                                <p class="card-expiry">Expires <%= card.expiry %></p>
+                                                <p class="card-name"><%= card.name %></p>
+                                            </div>
+                                            <div class="card-actions">
+                                                <button type="button" class="btn btn-outline btn-sm">Edit</button>
+                                                <button type="button" class="btn btn-outline btn-sm btn-danger">Remove</button>
+                                            </div>
+                                        </div>
+                                    <% }); %>
+                                <% } else { %>
+                                    <div class="no-data-message">
+                                        <p>No payment methods found. Click "Add New Card" to add one</p>
+                                    </div>
+                                <% } %>
+                            </div>
+
+                        </div>
+
+                        <!-- Security Tab Panel -->
+                        <div id="security" class="tab-panel">
+                            <div class="profile-section">
+                                <h3 class="section-title">Change Password</h3>
+                                <form id="password-form" class="form-container">
+                                    <div class="form-group">
+                                        <label for="current-password">Current Password</label>
+                                        <input 
+                                            type="password" 
+                                            id="current-password" 
+                                            name="current-password" 
+                                            required
+                                        >
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new-password">New Password</label>
+                                        <input 
+                                            type="password" 
+                                            id="new-password" 
+                                            name="new-password" 
+                                            required
+                                        >
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirm-password">Confirm New Password</label>
+                                        <input 
+                                            type="password" 
+                                            id="confirm-password" 
+                                            name="confirm-password" 
+                                            required
+                                        >
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn-primary">Update Password</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/profile.js"></script>
+</body>
+</html> 

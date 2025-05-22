@@ -1,0 +1,142 @@
+/* truck-details.css */
+
+/* Container */
+.truck-details-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  /* Back Link */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary);
+    font-weight: 500;
+    text-decoration: none;
+    transition: var(--transition);
+  }
+  .back-link svg {
+    stroke: var(--primary);
+  }
+  .back-link:hover {
+    transform: translateX(-4px);
+  }
+  
+  /* Truck Card */
+  .truck-card {
+    background-color: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    transition: var(--transition);
+  }
+  .truck-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+  }
+  
+  /* Header */
+  .truck-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  .truck-header h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  
+  /* Status Badge */
+  .status-badge {
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: capitalize;
+    display: inline-block;
+  }
+  
+  /* Example status variants */
+  .status-badge.intransit {
+    background-color: var(--inTransit);
+    color: var(--white);
+  }
+  .status-badge.available {
+    background-color: var(--success-light);
+    color: var(--success);
+  }
+  .status-badge.undermaintenance {
+    background-color: var(--warning-light);
+    color: var(--warning);
+  }
+  .status-badge.offline {
+    background-color: var(--gray-200);
+    color: var(--gray-600);
+  }
+  
+  /* Info Grid */
+  .truck-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  /* Info Item */
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .info-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+  .info-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .order-link {
+    color: var(--primary);
+    text-decoration: none;
+    transition: var(--transition);
+  }
+  .order-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Maintenance History */
+  .maintenance-history {
+    margin-top: 3rem;
+  }
+  .maintenance-history h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+  .empty-state {
+    background-color: var(--gray-100);
+    color: var(--gray-600);
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1rem;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .truck-info-grid {
+      grid-template-columns: 1fr;
+    }
+    .truck-card {
+      padding: 1rem;
+    }
+  }
+  

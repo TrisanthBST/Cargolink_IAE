@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Order | CargoLink</title>
+    <link rel="icon" type="image/svg+xml" href="/img/logo.svg">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/place-order.css">
+    <link rel="stylesheet" href="/css/layout.css">
+</head>
+<body>
+    
+    <%- include('../partials/header') %>
+    
+    <main class="main-content container">
+        <div class="page-header">
+            <h1 class="page-title">Place Order</h1>
+        </div>
+
+        <form class="order-form" name="orderForm" action="/customer/place-order" method="post" onsubmit="return validatePlaceOrderForm(event)" novalidate>
+            <div class="form-section">
+                <h2 class="section-title">Shipment Details</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pickup-street" class="form-label">Pickup Location</label>
+                        <select id="pickup-address-select" class="address-select input-field">
+                            <option value="">Select a saved address</option>
+                        </select>
+                        <input type="text" id="pickup-street" name="pickup-street" class="input-field" placeholder="Street Address" required>
+                        <div class="address-wrapper">
+                            <input type="text" id="pickup-city" name="pickup-city" class="input-field" placeholder="City" required>
+                            <input type="text" id="pickup-state" name="pickup-state" class="input-field" placeholder="State" required>
+                        </div>
+                        <input type="text" id="pickup-zip" name="pickup-zip" class="input-field" placeholder="ZIP Code" required>
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="dropoff-street" class="form-label">Drop-off Location</label>
+                        <select id="dropoff-address-select" class="address-select input-field">
+                            <option value="">Select a saved address</option>
+                        </select>
+                        <input type="text" id="dropoff-street" name="dropoff-street" class="input-field" placeholder="Street Address" required>
+                        <div class="city-state-wrapper">
+                            <input type="text" id="dropoff-city" name="dropoff-city" class="input-field" placeholder="City" required>
+                            <input type="text" id="dropoff-state" name="dropoff-state" class="input-field" placeholder="State" required>
+                        </div>
+                        <input type="text" id="dropoff-zip" name="dropoff-zip" class="input-field" placeholder="ZIP Code" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pickup-date" class="form-label">Pickup Date</label>
+                        <input type="date" id="pickup-date" name="pickup-date" class="input-field" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pickup-time" class="form-label">Pickup Time</label>
+                        <input type="time" id="pickup-time" name="pickup-time" class="input-field" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="distance" class="form-label">Distance (km)</label>
+                        <input type="number" id="distance" name="distance" class="input-field" required min="0">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2 class="section-title">Cargo Information</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="goods-type" class="form-label">Type of Goods</label>
+                        <select id="goods-type" class="input-field" name="goods-type" required>
+                            <option value="" disabled selected>Select goods type</option>
+                            <option value="general">General Merchandise</option>
+                            <option value="fragile">Fragile Items</option>
+                            <option value="perishable">Perishable Goods</option>
+                            <option value="hazardous">Hazardous Materials</option>
+                            <option value="machinery">Vehicles & Machinery</option>
+                            <option value="furniture">Household Furniture</option>
+                            <option value="agricultural">Agricultural Commodities</option>
+                            <option value="construction">Construction Material</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vehicle-type" class="form-label">Vehicle Type Required</label>
+                        <select id="vehicle-type" class="input-field" name="vehicle-type" required>
+                            <option value="" disabled selected>Select vehicle type</option>
+                            <option value="van">Van</option>
+                            <option value="truck-small">Small Truck</option>
+                            <option value="truck-medium">Medium Truck</option>
+                            <option value="truck-large">Large Truck</option>
+                            <order value="refrigerated">Refrigerated Truck</option>
+                            <option value="flatbed">Flatbed Truck</option>
+                            <option value="container">Container Truck</option>
+                            <option value="any">Any</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="weight" class="form-label">Weight (tonnes)</label>
+                        <input type="number" id="weight" class="input-field" placeholder="Estimated weight" required min="0" max="30" step="0.1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="num-item-types" class="form-label">Number of Item Types</label>
+                        <input type="number" id="num-item-types" class="input-field" placeholder="Number of different items" min="1" required>
+                    </div>
+                </div>
+                
+                <div id="item-details-container"></div>
+                
+                <div class="form-group">
+                    <label for="cargo-description" class="form-label">Cargo Description</label>
+                    <textarea id="cargo-description" class="input-field" placeholder="Provide details about your cargo" required></textarea>
+                </div>
+            </div>
+            
+            <!-- New wrapper for side-by-side sections -->
+            <div class="form-section-row">
+                <div class="form-section form-section--half">
+                    <h2 class="section-title">Pricing & Bidding</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="max-price" class="form-label">Maximum Price</label>
+                            <input type="number" id="max-price" class="input-field" placeholder="Calculated based on distance" required min="0" readonly>
+                            <div class="form-info">Calculated: 30 rs/km (0-1000 km), 28 rs/km (1000-2000 km), 25 rs/km (above 2000 km)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="countdown-container">
+                        <div class="countdown-label">Bidding will end on</div>
+                        <div class="countdown-timer"></div>
+                    </div>
+                </div>
+                
+                <div class="form-section form-section--half">
+                    <h2 class="section-title">Additional Information</h2>
+                    
+                    <div class="form-group">
+                        <label for="special-instructions" class="form-label">Special Instructions</label>
+                        <textarea id="special-instructions" class="input-field" placeholder="Any special requirements or instructions for the transporter"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Attach Documents or Images</label>
+                        <div class="file-upload">
+                            <input type="file" id="file-upload" class="file-info">
+                        </div>
+                        <div class="form-info">You can upload images of your cargo, invoices, or other relevant documents (Max 5 files, 10MB each)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-submit">
+                <!-- <button type="button" class="btn btn-outline">Save as Draft</button> -->
+                <button id="submitButton" type="submit" class="btn btn-primary">Submit Order</button>
+            </div>
+        </form>
+    </main>
+
+    <%- include('../partials/footer') %>
+
+    <script src="/js/main.js"></script>
+    <script src="/js/place-order.js"></script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transporter Signup | CargoLink</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="CargoLink connects businesses with reliable transport solutions, making logistics simpler, faster, and more efficient.">
+    <link rel="stylesheet" href="/css/styles.css">    
+    <link rel="stylesheet" href="/css/signup.css">
+    <link rel="icon" type="image/icon" class="logo" href="/img/logo.svg">
+</head>
+<body>
+    <div class="main-content">
+    <div class="signup-content">
+    <div class="card-container">
+        <div class="left-side">
+            <img src="../img/login-left.avif" alt="Signup Background">
+            <div class="overlay">
+                <img class="logo" src="/img/logo.svg" alt="Company Logo">
+                <div class="brand">CargoLink</div>
+                <p class="tagline">Unified Logistics Platform</p>
+            </div>
+        </div>
+        <div class="right-side">
+            <div class="signup-form">
+                <h1>Create Transporter Account</h1>
+                <p class="subtitle">Join CargoLink as a Transport Partner</p>
+                
+                <!-- Progress Steps -->
+                <div class="progress-container">
+                    <div class="progress-step active" data-step="1">1</div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step" data-step="2">2</div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step" data-step="3">3</div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step" data-step="4">4</div>
+                </div>
+                
+                <form action=<%= "/"+userType+"/signup" %> method="POST" id="transporterSignupForm" onsubmit="return validateTransporterSignupForm(event);" novalidate>
+                    <!-- Step 1: Basic Info -->
+                    <div class="form-step" id="step1">
+                        <div class="form-group">
+                            <label class="input-label" for="name">Full Name</label>
+                            <input class="input-field" type="text" id="name" name="name" placeholder="Enter your full name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="input-label" for="primary_contact">Primary Phone Number</label>
+                            <input class="input-field" type="tel" id="primary_contact" name="primary_contact" placeholder="Enter your primary phone number" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="input-label" for="secondary_contact">Secondary Phone Number</label>
+                            <input class="input-field" type="tel" id="secondary_contact" name="secondary_contact" placeholder="Enter your secondary phone number">
+                            <small class="input-help">Optional: Alternative contact number</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="input-label" for="email">Email</label>
+                            <input class="input-field" type="email" id="email" name="email" placeholder="Enter your email" required autocomplete="username">
+                        </div>
+
+                        <div class="buttons">
+                            <button onclick="window.history.back()" type="button" class="btn btn-outline">Back</button>
+                            <button type="button" class="btn btn-primary next-step">Next</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2: Business Details & Address -->
+                    <div class="form-step hidden" id="step2">
+                        <!-- Business Details -->
+                        <div class="form-group">
+                            <label class="input-label" for="gst_in">gstNumber</label>
+                            <input class="input-field" type="text" id="gst_in" name="gst_in" placeholder="Enter your GSTIN number" required>
+                            <small class="input-help">Format: 22AAAAA0000A1Z5</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="input-label" for="pan">PAN Number</label>
+                            <input class="input-field" type="text" id="pan" name="pan" placeholder="Enter your PAN number" required>
+                            <small class="input-help">Format: ABCDE1234F</small>
+                        </div>
+
+                        <!-- Address Details -->
+                        <div class="form-group">
+                            <label class="input-label" for="street_address">Street Address</label>
+                            <input class="input-field" type="text" id="street_address" name="street_address" placeholder="Enter street address" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="input-label" for="city">City</label>
+                            <input class="input-field" type="text" id="city" name="city" placeholder="Enter city" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="input-label" for="state">State</label>
+                            <input class="input-field" type="text" id="state" name="state" placeholder="Enter state" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="input-label" for="pin">PIN Code</label>
+                            <input class="input-field" type="text" id="pin" name="pin" placeholder="Enter PIN code" required>
+                        </div>
+
+                        <div class="buttons">
+                            <button type="button" class="btn btn-outline prev-step">Previous</button>
+                            <button type="button" class="btn btn-primary next-step">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Vehicle Details -->
+                    <div class="form-step hidden" id="step3">
+                        <div id="vehiclesContainer">
+                            <!-- Initial vehicle form -->
+                            <div class="vehicle-form">
+                                <h3>Vehicle Details</h3>
+                                
+                                <div class="form-group">
+                                    <label class="input-label" for="name">Vehicle Nmae</label>
+                                    <input class="input-field" type="text" name="vehicles[${vehicleCount}][name]" placeholder="Enter vehicle name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="input-label" for="vehicleType">Vehicle Type</label>
+                                    <select class="input-field" name="vehicles[0][type]" required>
+                                        <option value="" disabled selected>Select vehicle type</option>
+                                        <option value="mini-truck">Mini Truck</option>
+                                        <option value="pickup">Pickup Truck</option>
+                                        <option value="truck">Standard Truck</option>
+                                        <option value="trailer">Trailer</option>
+                                        <option value="container">Container Truck</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="input-label" for="vehicleNumber">Vehicle Registration Number</label>
+                                    <input class="input-field" type="text" name="vehicles[0][registrationNumber]" placeholder="Enter vehicle registration number" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="input-label" for="vehicleCapacity">Vehicle Capacity (in tons)</label>
+                                    <input class="input-field" type="number" name="vehicles[0][capacity]" placeholder="Enter vehicle capacity" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="input-label" for="manufacture_year">Manufacture Year</label>
+                                    <input class="input-field" type="year" name="vehicles[${vehicleCount}][manufacture_year]" placeholder="Enter manufacture_year" required>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="add-vehicle-section">
+                            <button type="button" class="btn btn-outline" onclick="addVehicle()">+ Add Another Vehicle</button>
+                        </div>
+
+                        <div class="buttons">
+                            <button type="button" class="btn btn-outline prev-step">Previous</button>
+                            <button type="button" class="btn btn-primary next-step">Next</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4: Password -->
+                    <div class="form-step hidden" id="step4">
+                        <div class="form-group">
+                            <label class="input-label" for="password">Password</label>
+                            <div class="password-container">
+                                <input class="input-field" type="password" id="password" name="password" placeholder="Create a password" required autocomplete="new-password">
+                                <span class="toggle-password">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="input-label" for="confirmPassword">Confirm Password</label>
+                            <div class="password-container">
+                                <input class="input-field" type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required autocomplete="new-password">
+                                <span class="toggle-password">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="terms-checkbox">
+                                <input type="checkbox" name="terms" required>
+                                I agree to the <a href="/terms" class="link">Terms of Service</a> and <a href="/privacy" class="link">Privacy Policy</a>
+                            </label>
+                        </div>
+
+                        <div class="buttons">
+                            <button type="button" class="btn btn-outline prev-step">Previous</button>
+                            <button type="submit" class="btn btn-primary">Create Account</button>
+                        </div>
+                    </div>
+                </form>
+                
+                <p class="login-text">Already have an account? <a class="link" href=<%= "/"+userType+"/login" %>>Sign in</a></p>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <script src="/js/transporter_signup.js"></script>
+</body>
+</html>

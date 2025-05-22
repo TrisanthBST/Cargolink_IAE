@@ -1,0 +1,42 @@
+<% 
+    // Generate a random transaction ID
+    let transactionId = '';
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    for (let i = 0; i < 12; i++) {
+        transactionId += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay Now - CargoLink</title>
+    <link rel="stylesheet" href="/css/paynow.css">
+        <link rel="stylesheet" href="/css/styles.css">
+        <link rel="stylesheet" href="/css/orders.css">
+        <link rel="stylesheet" href="/css/layout.css">
+        <link rel="icon" type="image/icon" class="logo" href="/img/logo.svg">
+    
+   
+</head>
+<body>
+    <%- include('../partials/header') %>
+           
+    <br><br>
+    <main>
+        <h1>Payment Confirmation</h1>
+        <div class="payment-success">
+            <div class="icon">✔</div>
+            <h2>Payment Successful</h2>
+            <p>Transaction ID: <span id="transaction-id"><%= transactionId %></span></p>
+            <p>Thank you for your payment. Your order has been successfully processed.</p>
+            <a href="/customer/orders" class="btn">Back to My Orders</a>
+        </div>
+    </main>
+    <%- include('../partials/footer') %>
+    <script>
+        
+    </script>
+</body>
+</html>

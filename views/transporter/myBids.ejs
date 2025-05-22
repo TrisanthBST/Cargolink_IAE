@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bids - CargoLink</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/bid.css">
+    <link rel="icon" type="image/icon" class="logo" href="/img/logo.svg">
+    <style>
+        .my-bids-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .my-bids-table th, .my-bids-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--light);
+        }
+        .my-bids-table th {
+            background-color: var(--primary);
+            color: var(--white);
+            font-weight: 600;
+        }
+        .my-bids-table tr:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        .no-bids-message {
+            text-align: center;
+            padding: 20px;
+            color: var(--dark);
+        }
+    </style>
+</head>
+<body>
+    <%- include('../partials/header') %>
+
+    <div class="main-content-bid">
+        <div class="container">
+            <div class="header-container">
+                <h1>My Bids</h1>
+            </div>
+
+            <section>
+                <% if (myBids && myBids.length > 0) { %>
+                    <table class="my-bids-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Pickup Date</th>
+                                <th>Pickup Time</th>
+                                <th>Pickup</th>
+                                <th>Delivery</th>
+                                <th>Bid Amount ($)</th>
+                                <th>Bid Time</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% myBids.forEach(bid => { %>
+                                <tr>
+                                    <td><%= bid.orderId %></td>
+                                    <td><%= bid.pickupDate %></td>
+                                    <td><%= bid.pickupTime %></td>
+                                    <td><%= bid.pickup %></td>
+                                    <td><%= bid.delivery %></td>
+                                    <td><%= bid.bidAmount %></td>
+                                    <td><%= bid.bidTime %></td>
+                                    <td><%= bid.notes || 'N/A' %></td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                <% } else { %>
+                    <div class="no-bids-message">
+                        <p>You have not placed any bids yet.</p>
+                    </div>
+                <% } %>
+            </section>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

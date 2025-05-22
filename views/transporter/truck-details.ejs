@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/truck-details.css">
+    <link rel="icon" type="image/icon" class="logo" href="/img/logo.svg">
+
+</head>
+<body>
+    
+    <%- include('../partials/header') %>
+
+    <!-- Main Content -->
+    <main class="container main-container">
+        <div class="page-header">
+            <div class="page-title">
+                <a href="/transporter/fleet" class="back-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    Back to Fleet
+                </a>
+                <h2><%= truck.name %> Details</h2>
+            </div>
+        </div>
+
+        <div class="truck-details-container">
+            <div class="truck-card">
+                <div class="truck-header">
+                    <h3><%= truck.name %></h3>
+                    <span class="status-badge <%= truck.status.toLowerCase().replace(/\s+/g, '') %>">
+                        <%= truck.status %>
+                    </span>
+                </div>
+                
+                <div class="truck-info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Registration</div>
+                        <div class="info-value"><%= truck.registration %></div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">Type</div>
+                        <div class="info-value"><%= truck.truck_type %></div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">Capacity</div>
+                        <div class="info-value"><%= typeof truck.capacity === 'number' ? truck.capacity + ' tons' : truck.capacity %></div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">Manufacture Year</div>
+                        <div class="info-value"><%= truck.manufacture_year %></div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">Last Service Date</div>
+                        <div class="info-value">
+                            <% if (truck.last_service_date) { %>
+                                <%= typeof truck.last_service_date === 'string' && truck.last_service_date.includes('/') ? 
+                                    truck.last_service_date : 
+                                    new Date(truck.last_service_date).toLocaleDateString() %>
+                            <% } else { %>
+                                Not Available
+                            <% } %>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">Next Service Date</div>
+                        <div class="info-value">
+                            <% if (truck.next_service_date) { %>
+                                <%= typeof truck.next_service_date === 'string' && truck.next_service_date.includes('/') ? 
+                                    truck.next_service_date : 
+                                    new Date(truck.next_service_date).toLocaleDateString() %>
+                            <% } else { %>
+                                Not Scheduled
+                            <% } %>
+                        </div>
+                    </div>
+                    
+                    <% if (truck.current_order_id) { %>
+                    <div class="info-item">
+                        <div class="info-label">Assigned Order</div>
+                        <div class="info-value">
+                            <a href="/transporter/order/<%= truck.current_order_id %>" class="order-link">
+                                Order #<%= truck.current_order_id %>
+                            </a>
+                        </div>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+            
+            <div class="maintenance-history">
+                <h3>Maintenance History</h3>
+                <% if (false) { /* Will be implemented in future */ %>
+                    <!-- Maintenance history table -->
+                <% } else { %>
+                    <div class="empty-state">
+                        <p>No maintenance records found for this truck.</p>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <%- include('../partials/footer') %>
+
+    <script src="/js/truck-details.js"></script>
+</body>
+</html> 

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup | CargoLink</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="CargoLink connects businesses with reliable transport solutions, making logistics simpler, faster, and more efficient.">
+    <link rel="stylesheet" href="/css/styles.css">    
+    <link rel="stylesheet" href="/css/signup.css">
+    <link rel="icon" type="image/icon" class="logo" href="/img/logo.svg">
+</head>
+<body>
+    <div class="main-content">
+    <div class="signup-content">
+    <div class="card-container">
+        <div class="left-side">
+            <img src="../img/login-left.avif" alt="Signup Background">
+            <div class="overlay">
+                <img class="logo" src="/img/logo.svg" alt="Company Logo">
+                <div class="brand">CargoLink</div>
+                <p class="tagline">Unified Logistics Platform</p>
+            </div>
+        </div>
+        <div class="right-side">
+            <div class="signup-form">
+                <h1>Create Account</h1>
+                <p class="subtitle">Sign up to join CargoLink</p>
+                
+                <!-- Progress Steps -->
+                <div class="progress-container">
+                    <div class="progress-step active" data-step="1">1</div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step" data-step="2">2</div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step" data-step="3">3</div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step" data-step="4">4</div>
+                </div>
+                
+
+                <form action=<%= "/"+userType+"/signup" %> method="POST" id="signupForm" onsubmit="return validateSignupForm(event);" novalidate>
+                    <!-- Step 1: Personal Info -->
+                    <div class="form-step" id="step1">
+                        <div class="form-group">
+                            <label class="input-label" for="firstName">First Name</label>
+                            <input class="input-field" type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="input-label" for="lastName">Last Name</label>
+                            <input class="input-field" type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="input-label" for="gender">Gender</label>
+                            <select class="input-field" id="gender" name="gender" required>
+                                <option value="" disabled selected>Select your gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="buttons">
+                            <button onclick="window.history.back()" type="button" class="btn btn-outline">Back</button>
+                            <button type="button" class="btn btn-primary next-step">Next</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2: Contact Info -->
+                    <div class="form-step hidden" id="step2">
+                        <div class="form-group">
+                            <label class="input-label" for="phone">Phone Number</label>
+                            <input class="input-field" type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="input-label" for="email">Email</label>
+                            <input class="input-field" type="email" id="email" name="email" placeholder="Enter your email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="input-label" for="dob">Date of Birth</label>
+                            <input class="input-field" type="date" id="dob" name="dob" required>
+                        </div>
+
+                        <div class="buttons">
+                            <button type="button" class="btn btn-outline prev-step">Previous</button>
+                            <button type="button" class="btn btn-primary next-step">Next</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: Address -->
+                    <div class="form-step hidden" id="step3">
+                        <div class="form-group">
+                            <label class="input-label" for="street_address">Street Address</label>
+                            <input class="input-field" type="text" id="street_address" name="street_address" placeholder="Enter your street address">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="input-label" for="city">City</label>
+                            <input class="input-field" type="text" id="city" name="city" placeholder="Enter your city">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="input-label" for="state">State</label>
+                            <input class="input-field" type="text" id="state" name="state" placeholder="Enter your state">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="input-label" for="pin">PIN Code</label>
+                            <input class="input-field" type="text" id="pin" name="pin" placeholder="Enter your PIN code">
+                        </div>
+
+                        <div class="buttons">
+                            <button type="button" class="btn btn-outline prev-step">Previous</button>
+                            <button type="button" class="btn btn-primary next-step">Next</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4: Password -->
+                    <div class="form-step hidden" id="step4">
+                        <div class="form-group">
+                            <label class="input-label" for="password">Password</label>
+                            <div class="password-container">
+                                <input class="input-field" type="password" id="password" name="password" placeholder="Create a password" required>
+                                <span class="toggle-password">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                              </span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="input-label" for="confirmPassword">Confirm Password</label>
+                            <div class="password-container">
+                                <input class="input-field" type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                                <span class="toggle-password">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                              </span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="terms-checkbox">
+                                <input type="checkbox" name="terms" required>
+                                I agree to the <a href="/static/terms" class="link">Terms of Service</a> and <a href="/static/privacy" class="link">Privacy Policy</a>
+                            </label>
+                        </div>
+
+                        <div class="buttons">
+                            <button type="button" class="btn btn-outline prev-step">Previous</button>
+                            <button type="submit" class="btn btn-primary">Create Account</button>
+                        </div>
+                    </div>
+                </form>
+                
+                <p class="login-text">Already have an account? <a class="link" href=<%= "/"+userType+"/login" %>>Sign in</a></p>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <script src="/js/customer_signup.js"></script>
+</body>
+</html>

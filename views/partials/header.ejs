@@ -1,0 +1,83 @@
+<header class="header">
+    <div class="header-container">
+        <a href="/" class="logo">
+            <img src="/img/logo.svg" alt="Company Logo" width="75" height="50">
+            <span>CargoLink</span>
+        </a>
+        
+        <nav class="nav-links">
+            <% if (typeof userType === 'undefined') { %>
+                <!-- Default navigation for unauthenticated users -->
+                <a class='underline-link' href="/static/services">Services</a>
+                <a class='underline-link' href="/static/about">About</a>
+                <a class='underline-link' href="/static/contact">Contact</a>
+                <a href="#" id="login-btn" class="btn btn-gradient-outline">Login</a>
+            <% } else if (userType === 'customer') { %>
+                <!-- Customer-specific navigation -->
+                <a class='underline-link' href="/customer/orders">My Orders</a>
+                <a class='underline-link' href="/customer/place-order">Place Order</a>
+                <a class='underline-link' href="/customer/profile">Profile</a>
+                <div class="profile-dropdown">
+                    <span class="profile-name"><%= userType %></span>
+                    <div class="dropdown-content">
+                        <a href="/logout" class="logout-link">Logout</a>
+                    </div>
+                </div>
+            <% } else if (userType === 'transporter') { %>
+                <!-- Transporter-specific navigation -->
+                <a class='underline-link' href="/transporter/my-bids"> My Bids</a>
+                <a class='underline-link' href="/transporter/bid"> Place Bid</a>
+                <a class='underline-link' href="/transporter/orders">My Orders</a>
+                <a class='underline-link' href="/transporter/fleet">Manage Fleet</a>
+                <div class="profile-dropdown">
+                    <span class="profile-name"><%= userType %></span>
+                    <div class="dropdown-content">
+                        <a href="/transporter/profile">Profile</a>
+                        <a href="/logout" class="logout-link">Logout</a>
+                    </div>
+                </div>
+            <% } else if (userType === 'admin') { %>
+                <!-- Admin-specific navigation -->
+                <a class='underline-link' href="/admin/dashboard">Dashboard</a>
+                <a class='underline-link' href="/admin/users">User Management</a>
+                <a class='underline-link' href="/admin/orders">Orders List</a>
+                <div class="profile-dropdown">
+                    <span class="profile-name"><%= userType %></span>
+                    <div class="dropdown-content">
+                        <a href="/profile">Profile</a>
+                        <a href="/logout" class="logout-link">Logout</a>
+                    </div>
+                </div>
+            <% } %>
+        </nav>
+        <div class="mobile-menu-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</header>
+
+<!-- Login Modal -->
+<div id="login-modal" class="modal-overlay">
+    <div class="modal">
+        <button class="modal-close">&times;</button>
+        
+        <!-- Login Options -->
+        <div class="login-options">
+            <a href="/customer/login" class="login-card" id="userLoginCard">
+                <h3>Login as Customer</h3>
+                <p>Access your shipping dashboard and manage your cargo deliveries</p>
+            </a>
+            
+            <a href="/transporter/login" class="login-card" id="transporterLoginCard">
+                <h3>Login as Transporter</h3>
+                <p>Manage your fleet and access available shipping requests</p>
+            </a>
+            <a href="/admin/login" class="login-card" id="adminLoginCard">
+                <h3>Login as Admin</h3>
+                <p>Access administrative controls and manage platform settings.</p>
+            </a>
+        </div>
+    </div>
+</div>

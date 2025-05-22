@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Available Bids - CargoLink</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/bid.css">
+  <link rel="icon" type="image/icon" class="logo" href="/img/logo.svg">
+</head>
+<body>
+  <%- include('../partials/header') %>
+
+  <div class="main-content-bid">
+    <div class="container">
+      <div class="header-container">
+        <h1>Available Orders</h1>
+        <button class="btn btn-primary" onclick="refreshBids()">Refresh</button>
+      </div>
+
+      <section class="filter-section">
+        <h2>Filter Orders</h2>
+        <div class="filter-controls">
+          <div class="filter-control">
+            <label for="location">Location</label>
+            <select id="location">
+              <option value="">All Locations</option>
+              <option value="Chennai">Chennai</option>
+              <option value="Bengaluru">Bengaluru</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="Pune">Pune</option>
+              <option value="Delhi">Delhi</option>
+            </select>
+          </div>
+          <div class="filter-control">
+            <label for="vehicle-type">Vehicle Type</label>
+            <select id="vehicle-type">
+              <option value="">All Types</option>
+              <option value="van">Van</option>
+              <option value="truck">Truck</option>
+              <option value="tanker">Tanker</option>
+              <option value="heavyload">Heavy Load</option>
+              <option value="refrigerated">Refrigerated</option>
+              <option value="flatbed">Flatbed</option>
+            </select>
+          </div>
+          <div class="filter-control">
+            <label for="price-min">Min Price ($)</label>
+            <input type="number" id="price-min" placeholder="Minimum price">
+          </div>
+          <div class="filter-control">
+            <label for="price-max">Max Price ($)</label>
+            <input type="number" id="price-max" placeholder="Maximum price">
+          </div>
+          <div class="filter-control">
+            <label> </label>
+            <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="bid-grid">
+        <% if (bids && bids.length > 0) { %>
+          <% bids.forEach((bid, index) => { %>
+            <div class="bid-card" id="bid-card-<%= index %>">
+              <div class="bid-header">
+                <div class="bid-price" data-original-price="<%= bid.price %>">$<%= bid.price %></div>
+              </div>
+              <div class="bid-body">
+                <div class="bid-details">
+                  <div class="bid-detail">
+                    <span class="detail-label">Order ID:</span>
+                    <span><%= bid.id %></span>
+                  </div>
+                  <div class="bid-detail">
+                    <span class="detail-label">Pickup Date:</span>
+                    <span><%= bid.pickup_date %></span>
+                  </div>
+                  <div class="bid-detail">
+                    <span class="detail-label">Pickup Time:</span>
+                    <span><%= bid.pickup_time %></span>
+                  </div>
+                  <div class="bid-detail">
+                    <span class="detail-label">Pickup:</span>
+                    <span><%= bid.pickup %></span>
+                  </div>
+                  <div class="bid-detail">
+                    <span class="detail-label">Delivery:</span>
+                    <span><%= bid.delivery %></span>
+                  </div>
+                  <div class="bid-detail">
+                    <span class="detail-label">Distance:</span>
+                    <span><%= bid.distance %> miles</span>
+                  </div>
+                  <div class="bid-detail">
+                    <span class="detail-label">Vehicle Type:</span>
+                    <span><%= bid.type %></span>
+                  </div>
+                  <div class="bid-detail">
+                    <span class="detail-label">Weight:</span>
+                    <span><%= bid.weight %> lbs</span>
+                  </div>
+                </div>
+                <div class="bid-form">
+                  <label for="bid-amount-<%= index %>">Your Bid Amount ($)</label>
+                  <input type="number" id="bid-amount-<%= index %>" placeholder="Enter your bid">
+                  <label for="notes-<%= index %>">Notes (Optional)</label>
+                  <textarea id='notes-<%= index %>' rows="2" placeholder="Add any notes about your bid"></textarea>
+                  <div class="bid-actions">
+                    <!-- Replaced "View Bid History" with "More Info" -->
+                    <a href="/transporter/order/<%= bid.id %>" class="btn btn-secondary">More Info</a>
+                    <% if (bid.already_bid) { %>
+                      <button class="btn" disabled>Bid Placed</button>
+                    <% } else { %>
+                      <button class="btn btn-primary" onclick="submitBid(<%= index%>, '<%= bid.id %>')">Submit Bid</button>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <div class="no-bids-message">
+            <p>No available bids at this time.</p>
+          </div>
+        <% } %>
+      </section>
+    </div>
+  </div>
+
+  <%- include('../partials/footer') %>
+
+  <script src="/js/bid.js"></script>
+</body>
+</html>

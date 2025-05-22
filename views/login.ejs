@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | CargoLink</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="CargoLink connects businesses with reliable transport solutions, making logistics simpler, faster, and more efficient.">
+    <link rel="stylesheet" href="/css/styles.css">    
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="icon" type="image/icon" class="logo" href="/img/logo.svg">
+</head>
+<body>
+    <div class="login-main-content">
+    <div class="login-content">
+    <div class="card-container">
+        <div class="left-side">
+            <img src="../img/login-left.avif" alt="Login Background">
+            <div class="overlay">
+                <img class="logo" src="/img/logo.svg" alt="Company Logo">
+                <div class="brand">CargoLink</div>
+                <p class="tagline">Unified Logistics Platform</p>
+            </div>
+        </div>
+        <div class="right-side">
+            <div class="login-form">
+                <h1>Welcome Back</h1>
+                <p class="subtitle">Sign in to access your account</p>
+                
+                <form id="loginForm" action=<%= "/"+userType+"/login" %> method="POST" onsubmit="validateLoginForm(event);" novalidate>
+                    <div class="form-group">
+                        <label class="input-label" for="email">Email</label>
+                        <input class="input-field" type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="input-label" for="password">Password</label>
+                        <div class="password-container">
+                            <input class="input-field" type="password" id="password" name="password" placeholder="Enter your password" required>
+                            <span class="toggle-password">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                          </span>
+                        </div>
+                      </div>
+                    
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox" name="remember" id="remember-me">
+                            Remember me
+                        </label>
+                        <a href="/forgot-password" class="link">Forgot password?</a>
+                    </div>
+                    
+                    <div class="buttons">
+                        <button onclick="window.history.back()" class="btn btn-outline">Back</button>
+                        <button type="submit" class="btn btn-primary">Sign In</button>
+                    </div>
+                </form>
+                
+                <p class="register-text">Not a user? <a class="link" href=<%= "/"+userType+"/signup" %>>Register now</a></p>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <script src="/js/main.js"></script>
+    <script src="/js/login.js"></script>
+
+
+</body>
+</html>

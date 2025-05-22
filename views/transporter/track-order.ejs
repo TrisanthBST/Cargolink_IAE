@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Information | CargoLink</title>
+  <link rel="stylesheet" href="/css/track-order.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="icon" type="image/icon" class="logo" href="/img/logo.svg">
+
+</head>
+<body>
+  <%- include('../partials/header') %>
+
+  <div class="container">
+  
+    <div class="page-header">
+      <h1>Order Details <span class="order-id">#<%= order.id %></span></h1>
+      <div class="status-update">
+        <span class="status-label">Status:</span>
+        <span class="status-badge <%= order.status === 'In Transit' ? 'active' : order.status === 'Delivered' ? 'completed' : 'pending' %>">
+          <%= order.status %>
+        </span>
+      </div>
+    </div>
+
+    <div class="order-grid">
+      <div class="left-column">
+        <!-- Shipment Information Card -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Shipment Information</h2>
+          </div>
+          <div class="shipment-details">
+            <div class="detail-group">
+              <p class="detail-label">Pickup Date & Time</p>
+              <p class="detail-value"><%= order.pickupDate || 'Not specified' %></p>
+            </div>
+            <div class="detail-group">
+              <p class="detail-label">Delivery ETA</p>
+              <p class="detail-value"><%= order.deliveryDate || 'Not specified' %></p>
+            </div>
+            <div class="detail-group">
+              <p class="detail-label">Pickup Location</p>
+              <p class="detail-value"><%= order.pickupLocation || 'Not specified' %></p>
+            </div>
+            <div class="detail-group">
+              <p class="detail-label">Delivery Location</p>
+              <p class="detail-value"><%= order.deliveryLocation || 'Not specified' %></p>
+            </div>
+            <div class="detail-group">
+              <p class="detail-label">Cargo Description</p>
+              <p class="detail-value"><%= order.cargoDescription || 'Not specified' %></p>
+            </div>
+            <div class="detail-group">
+              <p class="detail-label">Weight</p>
+              <p class="detail-value"><%= order.weight || 'Not specified' %></p>
+            </div>
+            <div class="detail-group">
+              <p class="detail-label">Vehicle Assigned</p>
+              <p class="detail-value"><%= order.vehicleAssigned || 'Not assigned yet' %></p>
+            </div>
+            <div class="detail-group">
+              <p class="detail-label">Payment Amount</p>
+              <p class="detail-value"><%= order.paymentAmount ? '$' + order.paymentAmount : 'Not finalized' %></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Combined Tracking and Chat Section -->
+        <div class="combined-section">
+          <!-- Live Tracking Card -->
+          <div class="tracking-card">
+            <div class="card">
+              <div class="card-header">
+                <h2 class="card-title">Live Tracking</h2>
+              </div>
+              <div class="map-container">
+                <div class="map-placeholder">
+                  <div class="loader"></div>
+                  <p>Loading map...</p>
+                </div>
+              </div>
+              <div class="action-buttons">
+                <button class="btn btn-outline">View Route</button>
+                <button class="btn btn-outline">Share Location</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Customer Chat Card -->
+          <div class="chat-card">
+            <div class="card">
+              <div class="card-header">
+                <h2 class="card-title">Customer Chat</h2>
+              </div>
+              <div class="chat-container">
+                <div class="chat-messages">
+                  <div class="message received">
+                    <div class="message-sender">Jane Smith</div>
+                    <div class="message-bubble">
+                      Hi there! Just checking in on the shipment status. Is everything on schedule?
+                    </div>
+                    <div class="message-time">Mar 9, 10:15 AM</div>
+                  </div>
+                  <div class="message sent">
+                    <div class="message-bubble">
+                      Hello Jane! Yes, we're currently on I-10 East and making good progress. ETA remains unchanged for now.
+                    </div>
+                    <div class="message-time">Mar 9, 10:22 AM</div>
+                  </div>
+                </div>
+                <div class="chat-input">
+                  <input type="text" placeholder="Type your message here...">
+                  <button class="btn btn-primary">Send</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-column">
+        <!-- Update Status Card -->
+        <div class="card update-status-card">
+          <div class="card-header">
+            <h2 class="card-title">Update Status</h2>
+          </div>
+          <div class="action-buttons">
+            <button class="btn btn-warning" onclick="reportDelay()">Delay Reported</button>
+            <button class="btn btn-success" onclick="updateStatus('Delivered')">Delivered</button>
+          </div>
+          <div class="note-section">
+            <div class="detail-group">
+              <label for="status-note" class="detail-label">Add Note</label>
+              <textarea id="status-note" rows="4" placeholder="Enter any updates or notes..."></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="saveNote()">Save Note</button>
+          </div>
+        </div>
+
+        <!-- Customer Information Card -->
+        <div class="card customer-info-card">
+          <div class="card-header">
+            <h2 class="card-title">Customer Information</h2>
+          </div>
+
+          <div class="detail-group">
+            <p class="detail-label">Contact Person</p>
+            <p class="detail-value"><%= order.customer.contactPerson %></p>
+          </div>
+          <div class="detail-group">
+            <p class="detail-label">Contact Phone</p>
+            <p class="detail-value"><%= order.customer.contactPhone %></p>
+          </div>
+          <div class="detail-group">
+            <p class="detail-label">Email</p>
+            <p class="detail-value"><%= order.customer.email %></p>
+          </div>
+          <div class="action-buttons">
+            <button class="btn btn-primary" onclick="callCustomer('<%= order.customer.contactPhone %>')">Call Customer</button>
+            <button class="btn btn-outline" onclick="emailCustomer('<%= order.customer.email %>')">Email Customer</button>
+          </div>
+        </div>
+
+        <% if (order.notes) { %>
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Order Notes</h2>
+          </div>
+          <div class="notes-container">
+            <pre><%= order.notes %></pre>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../partials/footer') %>
+  
+  <script>
+    const orderId = '<%= order.id %>';
+    
+    function updateStatus(status) {
+      fetch(`/transporter/orders/${orderId}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      })
+      .then(handleResponse)
+      .catch(handleError);
+    }
+
+    function reportDelay() {
+      const note = document.getElementById('status-note').value;
+      if (!note) return alert('Please enter delay details');
+      
+      fetch(`/transporter/orders/${orderId}/delay`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ note })
+      })
+      .then(handleResponse)
+      .catch(handleError);
+    }
+
+    function saveNote() {
+      const note = document.getElementById('status-note').value;
+      if (!note) return alert('Please enter a note');
+      
+      fetch(`/transporter/orders/${orderId}/note`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ note })
+      })
+      .then(handleResponse)
+      .catch(handleError);
+    }
+
+    function handleResponse(response) {
+      if (!response.ok) throw new Error('Network response was not ok');
+      return response.json().then(data => {
+        if (data.success) {
+          window.location.reload();
+        } else {
+          throw new Error(data.error || 'Unknown error');
+        }
+      });
+    }
+
+    function handleError(error) {
+      console.error('Error:', error);
+      alert(error.message || 'An error occurred');
+    }
+
+    function callCustomer(phone) {
+      alert(`Calling ${phone}...`);
+    }
+
+    function emailCustomer(email) {
+      alert(`Emailing ${email}...`);
+    }
+
+    // Chat functionality
+    document.querySelector('.chat-input button').addEventListener('click', sendMessage);
+    document.querySelector('.chat-input input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    function sendMessage() {
+      const input = document.querySelector('.chat-input input');
+      const message = input.value.trim();
+      if (!message) return;
+
+      const chatMessages = document.querySelector('.chat-messages');
+      const newMessage = document.createElement('div');
+      newMessage.className = 'message sent';
+      newMessage.innerHTML = `
+        <div class="message-bubble">${message}</div>
+        <div class="message-time">${new Date().toLocaleString('en-US', { 
+          month: 'short', 
+          day: 'numeric', 
+          hour: '2-digit', 
+          minute: '2-digit' 
+        })}</div>
+      `;
+      chatMessages.appendChild(newMessage);
+      input.value = '';
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+  </script>
+</body>
+</html>

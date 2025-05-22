@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CargoLink - Connecting Customers and Transporters</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/index.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="description" content="CargoLink connects businesses with reliable transport solutions, making logistics simpler, faster, and more efficient.">
+  <link rel="icon" type="image/icon" class="logo" href="/img/logo.svg">
+</head>
+
+<body>
+    <!-- Include Header -->
+    <%- include('partials/header') %>
+  
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+            <h1>Connecting Customers and Transporters</h1>
+            <p>
+                CargoLink brings businesses and transporters together on one seamless platform,
+                making logistics simpler, faster, and more efficient.
+            </p>
+            <div class="button-group">
+                <% if (typeof userType === 'undefined') { %>
+                    <!-- Default navigation for unauthenticated users -->
+                    <a href="/customer/signup" class="btn btn-gradient">Sign up Now</a>
+                    <a href="/transporter/signup" class="btn btn-gradient-outline">Join as Transporter</a>
+                <% } else if (userType === 'customer') { %>
+                    <!-- Customer-specific navigation -->
+                    <a href="/customer/place-order" class="btn btn-gradient">Ship Now</a>
+                <% } else if (userType === 'transporter') { %>
+                    <!-- Transporter-specific navigation -->
+                    <a href="/transporter/bid" class="btn btn-gradient">Bid Now</a>
+                <% } else if (userType === 'admin') { %>
+                    <!-- Admin-specific navigation -->
+                    <a href="/admin/dashboard" class="btn btn-gradient">Dashboard</a>
+                <% } %>
+            </div>
+        </section>
+    
+        <!-- Features Section -->
+        <section class="features">
+            <h2 class="section-title">Why Choose CargoLink?</h2>
+            <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-image">
+                <img src="/img/features/features-1.jpg" alt="Easy Shipment Booking">
+                </div>
+                <div class="feature-content">
+                <h3>Easy Shipment Booking</h3>
+                <p>Post shipment requests with detialed information about pick-up/drop-off locations, load detials and budget in minutes.</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-image">
+                <img src="/img/features/features-2.jpg" alt="Competitive Bidding System">
+                </div>
+                <div class="feature-content">
+                <h3>Competitive Bidding System</h3>
+                <p>Get the best rates for your shipments through our transparent bidding system.</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-image">
+                <img src="/img/features/features-3.jpg" alt="Verified Transporters Network">
+                </div>
+                <div class="feature-content">
+                <h3>Verified Transporters</h3>
+                <p>All transporters undergo thorough verification of licenses, vehicles, and past performance.</p>
+                </div>
+            </div>
+            </div>
+        </section>
+        
+
+        <!-- Testimonials Section -->
+        <section class="testimonials">
+            <h2 class="section-title">What Our Users Say</h2>
+            <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                <div class="testimonial-image">
+                    <img src="/img/Mr.M.jpg" alt="Muthuraja S">
+                </div>
+                <div>
+                    <h4>Muthuraja S</h4>
+                    <p>Global Logistics Inc.</p>
+                </div>
+                </div>
+                <blockquote>
+                "CargoLink has transformed how we manage our shipments. The real-time tracking is invaluable."
+                </blockquote>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                <div class="testimonial-image">
+                    <img src="/img/Mr.H.jpg" alt="Hari Ragav">
+                </div>
+                <div>
+                    <h4>Hari Ragav</h4>
+                    <p>FastFreight Solutions</p>
+                </div>
+                </div>
+                <blockquote>
+                "The bidding system helps us find the best rates while ensuring quality service."
+                </blockquote>
+            </div>
+            </div>
+        </section>
+    </main>
+  
+    <!-- Include Footer -->
+    <%- include('partials/footer') %>
+  
+    <script src="/js/main.js"></script>
+  </body>
+  </html>
+  

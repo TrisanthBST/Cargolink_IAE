@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/t_profile.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="icon" type="image/icon" class="logo" href="/img/logo.svg">
+
+</head>
+<body>
+    <!-- Include Header -->
+    <%- include('../partials/header') %>
+
+    <div class="main-content">
+        <h1>Transporter Profile</h1>
+        
+        <div class="profile-tabs">
+            <a href="#company-details" class="tab active">Transporter Details</a>
+            <a href="#payment-info" class="tab">Payment Information</a>
+            <a href="#transaction-history" class="tab">Transaction History</a>
+            <a href="#security" class="tab">Security Settings</a>
+        </div>
+
+        <div class="profile-content">
+            <div id="company-details" class="tab-content active">
+                <div class="section-header">
+                    <h2>Transporter Information</h2>
+                    <button id="editProfileBtn" class="btn btn-primary">Edit Profile</button>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-group">
+                        <label>Transporter Name <span class="required">*</span></label>
+                        <div class="info-value" data-field="companyName">
+                            <span class="display-value"><%= transporter.companyName %></span>
+                            <input type="text" class="edit-input" value="<%= transporter.companyName %>" 
+                                data-field-type="name" data-validation="required name" minlength="3" maxlength="100" 
+                                style="display: none; width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                            <span class="validation-message"></span>
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <label>GST Number <span class="required">*</span></label>
+                        <div class="info-value" data-field="gstin">
+                            <span class="display-value"><%= transporter.gstNumber || 'GST123456789' %></span>
+                            <input type="text" class="edit-input" value="<%= transporter.gstNumber || 'GST123456789' %>" 
+                                data-field-type="gst_in" data-validation="required gst" 
+                                style="display: none; width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                            <span class="validation-message"></span>
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <label>PAN Number <span class="required">*</span></label>
+                        <div class="info-value" data-field="pan">
+                            <span class="display-value"><%= transporter.panNumber || 'PAN12345678' %></span>
+                            <input type="text" class="edit-input" value="<%= transporter.panNumber || 'PAN12345678' %>" 
+                                data-field-type="pan" data-validation="required pan" 
+                                style="display: none; width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                            <span class="validation-message"></span>
+                        </div>
+                    </div>
+
+                    <div class="info-group full-width">
+                        <label>Business Address <span class="required">*</span></label>
+                        <div class="info-value" data-field="street_address">
+                            <span class="display-value"><%= transporter.address || '456 Transport Avenue' %></span>
+                            <textarea class="edit-input" data-field-type="street_address" data-validation="required" minlength="10" maxlength="200" 
+                                style="display: none; width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"><%= transporter.address || '456 Transport Avenue' %></textarea>
+                            <span class="validation-message"></span>
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <label>City <span class="required">*</span></label>
+                        <div class="info-value" data-field="city">
+                            <span class="display-value"><%= transporter.city || 'Mumbai' %></span>
+                            <input type="text" class="edit-input" value="<%= transporter.city || 'Mumbai' %>" 
+                                data-field-type="city" data-validation="required" minlength="2" maxlength="50"
+                                style="display: none; width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                            <span class="validation-message"></span>
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <label>State <span class="required">*</span></label>
+                        <div class="info-value" data-field="state">
+                            <span class="display-value"><%= transporter.state || 'Maharashtra' %></span>
+                            <select class="edit-input" data-field-type="state" style="display: none; width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" data-validation="required">
+                                <option value="">Select State</option>
+                                <option value="Maharashtra" selected>Maharashtra</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Telangana">Telangana</option>
+                                <option value="West Bengal">West Bengal</option>
+                            </select>
+                            <span class="validation-message"></span>
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <label>PIN Code <span class="required">*</span></label>
+                        <div class="info-value" data-field="pin">
+                            <span class="display-value"><%= transporter.pinCode || '400001' %></span>
+                            <input type="text" class="edit-input" value="<%= transporter.pinCode || '400001' %>" 
+                                data-field-type="pin" data-validation="required pincode" 
+                                style="display: none; width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                            <span class="validation-message"></span>
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Primary Contact <span class="required">*</span></label>
+                        <div class="info-value" data-field="primary_contact">
+                            <span class="display-value"><%= transporter.primaryContact || transporter.phone %></span>
+                            <input type="text" class="edit-input" value="<%= transporter.primaryContact || transporter.phone %>" 
+                                data-field-type="primary_contact" data-validation="required phone" 
+                                style="display: none; width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                            <span class="validation-message"></span>
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Contact Phone <span class="required">*</span></label>
+                        <div class="info-value" data-field="phone">
+                            <span class="display-value"><%= transporter.phone %></span>
+                            <input type="tel" class="edit-input" value="<%= transporter.phone %>" 
+                                data-field-type="phone" data-validation="required phone" pattern="[6-9][0-9]{9}" style="display: none;">
+                            <span class="validation-message"></span>
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Email Address <span class="required">*</span></label>
+                        <div class="info-value" data-field="email">
+                            <span class="display-value"><%= transporter.email %></span>
+                            <input type="email" class="edit-input" value="<%= transporter.email %>" 
+                                data-field-type="email" data-validation="required email" 
+                                style="display: none; width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                            <span class="validation-message"></span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="info-group">
+                        <label>Number of Vehicles <span class="required">*</span></label>
+                        <div class="info-value" data-field="vehicleCount">
+                            <span class="display-value"><%= transporter.vehicleCount || '0' %></span>
+                            <input type="number" class="edit-input" value="<%= transporter.vehicleCount || '0' %>" 
+                                min="0" data-field-type="vehicleCount" data-validation="required" style="display: none;">
+                            <span class="validation-message"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions" style="display: none;">
+                    <button type="button" class="btn btn-primary save-profile">Save Changes</button>
+                    <button type="button" class="btn btn-secondary cancel-edit">Cancel</button>
+                </div>
+            </div>
+
+            <div id="payment-info" class="tab-content" style="display: none;">
+                <div class="section-header">
+                    <h2>Payment Information</h2>
+                </div>
+                <div class="empty-state">
+                    <p>No payment information available at this time.</p>
+                </div>
+            </div>
+
+            <div id="transaction-history" class="tab-content" style="display: none;">
+                <div class="section-header">
+                    <h2>Transaction History</h2>
+                    <div class="transaction-filters">
+                        <select id="monthFilter" class="form-control">
+                            <option value="">All Months</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                        </select>
+                        <select id="yearFilter" class="form-control">
+                            <option value="">All Years</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="transactions-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Transaction ID</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsBody">
+                            <% transporter.transactions?.forEach(function(transaction) { %>
+                            <tr>
+                                <td><%= transaction.date %></td>
+                                <td><%= transaction.id %></td>
+                                <td><%= transaction.description %></td>
+                                <td class="<%= transaction.amount >= 0 ? 'credit' : 'debit' %>">
+                                    <%= transaction.amount >= 0 ? '+' : '-' %>₹<%= Math.abs(transaction.amount) %>
+                                </td>
+                                <td><span class="status-badge <%= transaction.status.toLowerCase() %>"><%= transaction.status %></span></td>
+                            </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="security" class="tab-content" style="display: none;">
+                <div class="section-header">
+                    <h2>Security Settings</h2>
+                </div>
+
+                <div class="profile-section">
+                    <h3 class="section-title">Change Password</h3>
+                    <form id="password-form" class="form-container">
+                        <div class="form-group">
+                            <label for="currentPassword">Current Password <span class="required">*</span></label>
+                            <div class="password-input-container">
+                                <input 
+                                    type="password" 
+                                    id="currentPassword" 
+                                    name="currentPassword"
+                                    data-validation="required"
+                                    required
+                                >
+                                <span class="validation-message"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">New Password <span class="required">*</span></label>
+                            <div class="password-input-container">
+                                <input 
+                                    type="password" 
+                                    id="newPassword" 
+                                    name="newPassword"
+                                    data-validation="required password"
+                                    minlength="8"
+                                    required
+                                >
+                                <span class="validation-message"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm New Password <span class="required">*</span></label>
+                            <div class="password-input-container">
+                                <input 
+                                    type="password" 
+                                    id="confirmPassword" 
+                                    name="confirmPassword"
+                                    data-validation="required"
+                                    required
+                                >
+                                <span class="validation-message"></span>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="savePasswordBtn" class="btn btn-primary">Update Password</button>
+                            <button type="button" id="cancelPasswordBtn" class="btn btn-secondary">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Footer -->
+    <%- include('../partials/footer') %>
+
+    <!-- JavaScript Files -->
+    <script src="/js/t_profile.js"></script>
+</body>
+</html> 

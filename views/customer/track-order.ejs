@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Track Order</title>
+  <link rel="stylesheet" href="/css/track-order-customer.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="icon" type="image/icon" class="logo" href="/img/logo.svg">
+  <style>
+    /* Styling for the separate shipment items div */
+    .shipment-items-card {
+      margin-top: 20px;
+    }
+    .shipment-items-card .card {
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    .shipment-items-card h3 {
+      margin-top: 0;
+      font-size: 1.5em;
+      color: #333;
+    }
+    .shipment-items-table table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    .shipment-items-table th, .shipment-items-table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    .shipment-items-table th {
+      background-color: #f4f4f4;
+      font-weight: bold;
+      color: #333;
+    }
+    .shipment-items-table td {
+      color: #555;
+    }
+    /* Styling for the dropdown */
+    .delivery-status {
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+      font-size: 14px;
+      color: #333;
+      cursor: pointer;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .delivery-status:hover {
+      border-color: #888;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+    .delivery-status:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    }
+    .delivery-status option {
+      color: #333;
+    }
+    .payment-section {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .total-amount {
+      font-size: 1.1em;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <%- include('../partials/header') %>
+
+  <div class="container">
+    <ul class="breadcrumb">
+      <li><a href="/customer/dashboard">Dashboard</a></li>
+      <li><a href="/customer/orders">My Orders</a></li>
+      <li class="current">Order Details</li>
+    </ul>
+
+    <div class="page-header">
+      <h1>Order Details <span class="order-id">#<%= order.id %></span></h1>
+      <div class="status-update">
+        <span class="status-label">Status:</span>
+        <span class="status-badge <%= order.status === 'In Transit' ? 'active' : order.status === 'Delivered' ? 'completed' : 'pending' %>">
+          <%= order.status %>
+        </span>
+      </div>
+    </div>
+
+    <div class="order-grid">
+      <div class="left-column">
+        <!-- Shipment Information Card -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Shipment Information</h2>
+          </div>
+          <div class="shipment-details">
+            <div class="detail-group">
+              <p class="detail-label">Pickup Date & Time</p>
+              <p class="detail-value"><%= order.pickupDate || 'Not specified' %></p>
+            </div>
+            <div class="detail-group">
+              <p class="detail-label">Delivery ETA</p>
+              <p class="detail-value"><%= order.deliveryDate || 'Not specified' %></p>
+            </div>
+            <div class="detail-group">
+              <p class="detail-label">Pickup Location</p>
+              <p class="detail-value"><%= order.pickupLocation || 'Not specified' %></p>
+            </div>
+            <div class="detail-group">
+              <p class="detail-label">Delivery Location</p>
+              <p class="detail-value"><%= order.deliveryLocation || 'Not specified' %></p>
+            </div>
+            <div class="detail-group">
+              <p class="detail-label">Cargo Description</p>
+              <p class="detail-value"><%= order.cargoDescription || 'Not specified' %></p>
+            </div>
+            <div class="detail-group">
+              <p class="detail-label">Weight</p>
+              <p class="detail-value"><%= order.weight || 'Not specified' %></p>
+            </div>
+            <div class="detail-group">
+              <p class="detail-label">Vehicle Assigned</p>
+              <p class="detail-value"><%= order.vehicleAssigned || 'Not assigned yet' %></p>
+            </div>
+            <div class="detail-group">
+              <p class="detail-label">Payment Amount</p>
+              <p class="detail-value" id="original-payment-amount">
+                <%= order.paymentAmount ? '$' + order.paymentAmount : 'Not finalized' %>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Separate Shipment Items Card -->
+        <% if (order.items && order.items.length > 0) { %>
+          <div class="shipment-items-card">
+            <div class="card">
+              <h3>Shipment Items</h3>
+              <div class="shipment-items-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Item Name</th>
+                      <th>Quantity</th>
+                      <th>Price</th>
+                      <th>Delivery Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% order.items.forEach((item, index) => { %>
+                      <tr>
+                        <td><%= item.item_name %></td>
+                        <td><%= item.quantity %></td>
+                        <td>$<%= item.price %></td>
+                        <td>
+                          <select class="delivery-status" data-index="<%= index %>" data-price="<%= item.price %>">
+                            <option value="Delivered" <%= item.delivery_status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                            <option value="Damaged" <%= item.delivery_status === 'Damaged' ? 'selected' : '' %>>Damaged</option>
+                          </select>
+                        </td>
+                      </tr>
+                    <% }); %>
+                  </tbody>
+                </table>
+              </div>
+              <!-- Pay Now Button and Total Amount -->
+              <div class="payment-section">
+                <% if (order.paymentAmount && order.status !== 'Completed') { %>
+                  <a href="/customer/paynow?orderId=<%= order.id %>" class="btn btn-primary">Pay Now</a>
+                  <span class="total-amount">Total: $<span id="total-amount">0</span></span>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        <% } %>
+
+        <!-- Live Tracking Card (now full width) -->
+        <div class="tracking-card">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Live Tracking</h2>
+            </div>
+            <div class="map-container">
+              <div class="map-placeholder">
+                <div class="loader"></div>
+                <p>Loading map...</p>
+              </div>
+            </div>
+            <div class="action-buttons">
+              <button class="btn btn-outline">View Route</button>
+              <button class="btn btn-outline">Share Location</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-column">
+        <!-- Transporter Information Card -->
+        <div class="card customer-info-card">
+          <div class="card-header">
+            <h2 class="card-title">Transporter Information</h2>
+          </div>
+          <div class="detail-group">
+            <p class="detail-label">Contact Person</p>
+            <p class="detail-value"><%= order.transporter.contactPerson || 'Not specified' %></p>
+          </div>
+          <div class="detail-group">
+            <p class="detail-label">Contact Phone</p>
+            <p class="detail-value"><%= order.transporter.contactPhone || 'Not specified' %></p>
+          </div>
+          <div class="detail-group">
+            <p class="detail-label">Email</p>
+            <p class="detail-value"><%= order.transporter.email || 'Not specified' %></p>
+          </div>
+          <div class="action-buttons">
+            <button class="btn btn-primary" onclick="callTransporter('<%= order.transporter.contactPhone %>')">Call Transporter</button>
+            <button class="btn btn-outline" onclick="emailTransporter('<%= order.transporter.email %>')">Email Transporter</button>
+          </div>
+        </div>
+
+        <!-- Customer Chat Card -->
+        <div class="chat-card">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Customer Chat</h2>
+            </div>
+            <div class="chat-container">
+              <div class="chat-messages">
+                <div class="message sent">
+                  <div class="message-sender">Me</div>
+                  <div class="message-bubble">
+                    Hi there! Just checking in on the shipment status. Is everything on schedule?
+                  </div>
+                  <div class="message-time">Mar 9, 10:15 AM</div>
+                </div>
+                <div class="message received">
+                  <div class="message-bubble">
+                    Hello Jane! Yes, we're currently on I-10 East and making good progress. ETA remains unchanged for now.
+                  </div>
+                  <div class="message-time">Mar 9, 10:22 AM</div>
+                </div>
+              </div>
+              <div class="chat-input">
+                <input type="text" placeholder="Type your message here...">
+                <button class="btn btn-primary">Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <% if (order.notes) { %>
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Order Notes</h2>
+          </div>
+          <div class="notes-container">
+            <pre><%= order.notes %></pre>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../partials/footer') %>
+  
+  <script>
+    const orderId = '<%= order.id %>';
+    
+    function callTransporter(phone) {
+      alert(`Calling ${phone}...`);
+    }
+
+    function emailTransporter(email) {
+      alert(`Emailing ${email}...`);
+    }
+
+    // Chat functionality
+    document.querySelector('.chat-input button').addEventListener('click', sendMessage);
+    document.querySelector('.chat-input input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    function sendMessage() {
+      const input = document.querySelector('.chat-input input');
+      const message = input.value.trim();
+      if (!message) return;
+
+      const chatMessages = document.querySelector('.chat-messages');
+      const newMessage = document.createElement('div');
+      newMessage.className = 'message sent';
+      newMessage.innerHTML = `
+        <div class="message-sender">Me</div>
+        <div class="message-bubble">${message}</div>
+        <div class="message-time">${new Date().toLocaleString('en-US', { 
+          month: 'short', 
+          day: 'numeric', 
+          hour: '2-digit', 
+          minute: '2-digit' 
+        })}</div>
+      `;
+      chatMessages.appendChild(newMessage);
+      input.value = '';
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Shipment Items Total Calculation
+    const shipmentItems = <%- JSON.stringify(order.items || []) %>;
+    const deliveryStatusSelects = document.querySelectorAll('.delivery-status');
+    const totalAmountElement = document.getElementById('total-amount');
+
+    function calculateTotal() {
+      let total = 0;
+      deliveryStatusSelects.forEach(select => {
+        const price = parseFloat(select.getAttribute('data-price'));
+        const status = select.value;
+        const adjustedPrice = status === 'Damaged' ? price * 0.9 : price;
+        total += adjustedPrice;
+      });
+      totalAmountElement.textContent = total.toFixed(2);
+    }
+
+    // Initial calculation
+    calculateTotal();
+
+    // Recalculate total when delivery status changes
+    deliveryStatusSelects.forEach(select => {
+      select.addEventListener('change', calculateTotal);
+    });
+  </script>
+</body>
+</html>

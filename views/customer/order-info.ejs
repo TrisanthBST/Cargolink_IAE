@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Details - <%= order.orderId %></title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/order-info.css">
+  <link rel="icon" type="image/icon" class="logo" href="/img/logo.svg">
+</head>
+<body>
+  <%- include('../partials/header') %>
+
+  <main class="container">
+    <div class="order-info-container">
+      <div class="order-header">
+        <h2>Order #<%= order.orderId %></h2>
+        <span class="status-badge <%= order.status.toLowerCase().replace(' ', '-') %>">
+          <%= order.status %>
+        </span>
+      </div>
+
+      <div class="info-section">
+        <h3>Route Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">From</span>
+            <span class="value"><%= order.from %></span>
+          </div>
+          <div class="info-item">
+            <span class="label">To</span>
+            <span class="value"><%= order.to %></span>
+          </div>
+        </div>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Pickup Date</span>
+            <span class="value"><%= order.pickup_date %></span>
+          </div>
+          <div class="info-item">
+            <span class="label">Pickup Time</span>
+            <span class="value"><%= order.pickup_time %></span>
+          </div>
+          <div class="info-item">
+            <span class="label">Distance</span>
+            <span class="value"><%= order.distance %></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h3>Cargo Details</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Vehicle Type</span>
+            <span class="value"><%= order.vehicleType %></span>
+          </div>
+          <div class="info-item">
+            <span class="label">Cargo Type</span>
+            <span class="value"><%= order.cargoType %></span>
+          </div>
+          <div class="info-item">
+            <span class="label">Weight</span>
+            <span class="value"><%= order.weight %></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shipment Items Section with Insurance Amount -->
+      <div class="info-section">
+        <h3>Shipment Items</h3>
+        <% if (order.shipmentItems && order.shipmentItems.length > 0) { %>
+          <table class="shipment-table">
+            <thead>
+              <tr>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <% if (order.status == 'Completed') {%>
+                <th>Delivery Status</th>
+                <% }%>
+              </tr>
+            </thead>
+            <tbody>
+              <% order.shipmentItems.forEach(item => { %>
+                <tr>
+                  <td><%= item.item_name %></td>
+                  <td><%= item.quantity %></td>
+                  <td><%= item.price %></td>
+                  <% if (order.status == 'Completed') {%>
+                  <td><%= item.delivery_status %></td>
+                  <% }%>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+
+          <!-- Insurance Amount -->
+          <div class="insurance-amount">
+            <% 
+              const totalPrice = order.shipmentItems.reduce((sum, item) => sum + item.price, 0);
+              const insuranceAmount = totalPrice * 0.5;
+            %>
+            <p>Insurance Amount (50% of Total Price): <span>₹<%= insuranceAmount.toFixed(2) %></span></p>
+          </div>
+        <% } else { %>
+          <p>No shipment items available for this order.</p>
+        <% } %>
+      </div>
+
+      <div class="info-section">
+        <h3>Payment Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Price</span>
+            <span class="value earnings"><%= order.price %></span>
+          </div>
+          <div class="info-item">
+            <span class="label">Advance Payment</span>
+            <span class="value"><%= order.advance %></span>
+          </div>
+          <div class="info-item">
+            <span class="label">Remaining Amount</span>
+            <span class="value"><%= order.remaining %></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h3>Transporter Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Name</span>
+            <span class="value"><%= order.transporterName|| 'N/A' %></span>
+          </div>
+          <div class="info-item">
+            <span class="label">Email</span>
+            <span class="value"><%= order.transporterEmail || 'N/A' %></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+       
+        <button class="btn btn-secondary" id="back-button">Back to Orders</button>
+      </div>
+    </div>
+  </main>
+
+  <%- include('../partials/footer') %>
+ <script src="/js/order-info-cust.js"></script>
+  <!-- <script>
+    const backButton = document.getElementById('back-button');
+    backButton.addEventListener('click', function() {
+        window.location.href = '/<%= userType %>/orders';
+    });
+  </script> -->
+</body>
+</html>

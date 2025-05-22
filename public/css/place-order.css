@@ -1,0 +1,231 @@
+.container {
+    width: clamp(70%, 1280px, 90%);
+    margin: 0 auto;
+}
+
+.page-header {
+    padding-left: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+  
+.page-title {
+    color: var(--dark);
+    position: relative;
+}
+  
+.page-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 120px;
+    height: 4px;
+    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+}
+
+.order-form {
+    width: 100%;
+}
+
+/* Form layout styles */
+.form-section {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 20px;
+}
+
+/* New class for side-by-side sections */
+.form-section-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.form-section--half {
+    flex: 1 1 calc(50% - 1rem); /* Each section takes half the width minus the gap */
+    min-width: 300px; /* Ensure sections don't get too narrow */
+}
+
+.section-title {
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.75rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -0.75rem 1.5rem;
+}
+
+.form-group {
+    flex: 1 1 300px;
+    padding: 0rem 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Address selection dropdown beside street input */
+.address-wrapper {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+}
+
+.address-select {
+    flex: 0.5;
+    min-width: 180px;
+}
+
+.input-field {
+    flex: 1;
+}
+
+/* City and State should be side by side */
+.city-state-wrapper {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+}
+
+.city-state-wrapper .input-field {
+    flex: 1;
+}
+
+/* Ensure responsiveness */
+@media (max-width: 768px) {
+    .address-wrapper,
+    .city-state-wrapper {
+        flex-direction: column;
+    }
+
+    .form-section-row {
+        flex-direction: column;
+    }
+
+    .form-section--half {
+        flex: 1 1 100%; /* Stack sections on smaller screens */
+    }
+}
+
+.form-submit {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+/* Form control styles */
+.form-label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--dark);
+}
+
+.input-field {
+    background-color: var(--white);
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.input-field::placeholder {
+    color: var(--gray);
+    opacity: 0.7;
+}
+
+textarea.input-field {
+    min-height: 120px;
+    resize: vertical;
+}
+
+select.input-field {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748B' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+.form-info {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--gray);
+}
+
+/* File upload styles */
+.file-upload {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.file-info::file-selector-button {
+    background: var(--light);
+    border: 2px solid var(--light-gray);
+    border-radius: var(--border-radius);
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-standard);
+}
+
+.file-info::file-selector-button:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.file-info {
+    margin-left: 1rem;
+    color: var(--gray);
+}
+
+/* Countdown styles */
+.countdown-container {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(34, 211, 238, 0.1));
+    border-radius: var(--border-radius);
+    padding: 1.25rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.countdown-label {
+    font-size: 0.875rem;
+    color: var(--gray);
+    margin-bottom: 0.25rem;
+}
+
+.countdown-timer {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary);
+}
